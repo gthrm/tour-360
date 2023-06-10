@@ -1,8 +1,6 @@
-const panoramas = [
-  "./0.png",
-  "./1.png",
-  "./2.png",
-];
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+const panoramas = ["./0.png", "./1.png", "./2.png"];
 
 for (let i = 0; i < panoramas.length; i++) {
   const container = document.getElementById(`panorama${i + 1}`);
@@ -19,7 +17,7 @@ for (let i = 0; i < panoramas.length; i++) {
   );
   camera.position.z = 0.01;
 
-  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  const controls = new OrbitControls(camera, renderer.domElement);
 
   const scene = new THREE.Scene();
 
