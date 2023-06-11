@@ -45,6 +45,7 @@ for (let i = 0; i < panoramas.length; i++) {
   addIcon(container);
   body.appendChild(container);
   const renderer = new THREE.WebGLRenderer();
+  renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(container.clientWidth, container.clientHeight);
   container.appendChild(renderer.domElement);
 
@@ -62,6 +63,7 @@ for (let i = 0; i < panoramas.length; i++) {
 
   const textureLoader = new THREE.TextureLoader();
   textureLoader.load(panoramas[i], function (texture) {
+    texture.minFilter = THREE.LinearFilter;
     const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
     const sphereMaterial = new THREE.MeshBasicMaterial({
       map: texture,
@@ -77,6 +79,7 @@ for (let i = 0; i < panoramas.length; i++) {
   function animate() {
     requestAnimationFrame(animate);
     controls.update();
+
     renderer.render(scene, camera);
   }
 }
