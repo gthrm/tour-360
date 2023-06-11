@@ -1,10 +1,11 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 const panoramas = ["./1.png", "./2.png", "./3.png"];
-
+const body = document.querySelector("body");
 for (let i = 0; i < panoramas.length; i++) {
-  const container = document.getElementById(`panorama${i + 1}`);
-
+  const container = document.createElement("div");
+  container.className = "panorama";
+  body.appendChild(container);
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(container.clientWidth, container.clientHeight);
   container.appendChild(renderer.domElement);
