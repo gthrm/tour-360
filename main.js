@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-const panoramas = ["./0.png", "./1.png", "./2.png", "./3.png"];
+const panoramas = ["./1.png", "./2.png", "./3.png"];
 
 for (let i = 0; i < panoramas.length; i++) {
   const container = document.getElementById(`panorama${i + 1}`);
@@ -10,7 +10,7 @@ for (let i = 0; i < panoramas.length; i++) {
   container.appendChild(renderer.domElement);
 
   const camera = new THREE.PerspectiveCamera(
-    75,
+    50,
     container.clientWidth / container.clientHeight,
     0.1,
     1000
