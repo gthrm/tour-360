@@ -57,7 +57,7 @@ for (let i = 0; i < panoramas.length; i++) {
   camera.position.z = 0.01;
   addZoomButtons(container, camera);
   const controls = new OrbitControls(camera, renderer.domElement);
-
+  controls.rotateSpeed = -1;
   const scene = new THREE.Scene();
 
   const textureLoader = new THREE.TextureLoader();
