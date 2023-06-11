@@ -1,5 +1,9 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
+import { FXAAShader } from "three/addons/shaders/FXAAShader.js";
 
 function addIcon(container) {
   const icon = document.createElement("i");
@@ -44,9 +48,12 @@ for (let i = 0; i < panoramas.length; i++) {
   container.className = "panorama";
   addIcon(container);
   body.appendChild(container);
-  const renderer = new THREE.WebGLRenderer();
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(container.clientWidth, container.clientHeight);
+
+  const composer = new EffectComposer(renderer);
+
   container.appendChild(renderer.domElement);
 
   const camera = new THREE.PerspectiveCamera(
@@ -60,10 +67,16 @@ for (let i = 0; i < panoramas.length; i++) {
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.rotateSpeed = -1;
   const scene = new THREE.Scene();
+  const renderPass = new RenderPass(scene, camera);
+  composer.addPass(renderPass);
+  const fxaaPass = new ShaderPass(FXAAShader);
+  composer.addPass(fxaaPass);
 
   const textureLoader = new THREE.TextureLoader();
   textureLoader.load(panoramas[i], function (texture) {
     texture.minFilter = THREE.LinearFilter;
+    texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+
     const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
     const sphereMaterial = new THREE.MeshBasicMaterial({
       map: texture,
@@ -79,7 +92,7 @@ for (let i = 0; i < panoramas.length; i++) {
   function animate() {
     requestAnimationFrame(animate);
     controls.update();
-
-    renderer.render(scene, camera);
+    // renderer.render(scene, camera);
+    composer.render();
   }
 }
